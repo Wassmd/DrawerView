@@ -1,11 +1,3 @@
-//
-//  EnlargeHitAreaView.swift
-//  Pinpad
-//
-//  Created by Mohammed Wasimuddin on 27.02.20.
-//  Copyright © 2020 payback. All rights reserved.
-//
-
 import UIKit
 
 class DrawerHitAreaView: UIView {

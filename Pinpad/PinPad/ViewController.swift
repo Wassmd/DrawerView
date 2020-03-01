@@ -99,8 +99,8 @@ class ViewController: UIViewController {
         drawerViewController.didMove(toParent: self)
         drawerViewController.drawerCurrentState = .down
 
-//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:)))
-//        pinPadDrawerViewController.view.addGestureRecognizer(panGesture)
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:)))
+        drawerViewController.view.addGestureRecognizer(panGesture)
 
     }
 
@@ -110,42 +110,42 @@ class ViewController: UIViewController {
         drawerViewController.drawerContentHolderView.pinHeight(to: view.bounds.height)
     }
 
-//    @objc private func handlePan(recognizer: UIPanGestureRecognizer) {
-//        let offset = pinPadDrawerViewController.drawerCurrentState == .up ? 66 : view.bounds.height
-//
-//        switch recognizer.state {
-//            case .began:
-//                animateCard(with: offset)
-//                animator.pauseAnimation()
-//                animationProgress = animator.fractionComplete
-//
-//            case .changed:
-//                let translation = recognizer.translation(in: pinPadDrawerViewController.view)
-//                var fraction = -translation.y / offset
-//                if pinPadDrawerViewController.drawerCurrentState == .up || animator.isReversed { fraction *= -1 }
-//                animator.fractionComplete = fraction + animationProgress
-//
-//            case .ended:
-//                let yVelocity = recognizer.velocity(in: pinPadDrawerViewController.view).y
-//                let shouldClose = yVelocity > 0
-//                if yVelocity == 0 {
-//                    animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
-//                    break
-//                }
-//                switch pinPadDrawerViewController.drawerCurrentState {
-//                    case .up:
-//                        if !shouldClose && !animator.isReversed { animator.isReversed = !animator.isReversed }
-//                        if shouldClose && animator.isReversed { animator.isReversed = !animator.isReversed }
-//                    case .down:
-//                        if shouldClose && !animator.isReversed { animator.isReversed = !animator.isReversed }
-//                        if !shouldClose && animator.isReversed { animator.isReversed = !animator.isReversed }
-//                }
-//                animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
-//            @unknown default:
-//                print("inside default")
-//                break
-//        }
-//    }
+    @objc private func handlePan(recognizer: UIPanGestureRecognizer) {
+        let offset = drawerViewController.drawerCurrentState == .up ? 66 : view.bounds.height
+
+        switch recognizer.state {
+            case .began:
+                animateCard(with: offset)
+                animator.pauseAnimation()
+                animationProgress = animator.fractionComplete
+
+            case .changed:
+                let translation = recognizer.translation(in: drawerViewController.view)
+                var fraction = -translation.y / offset
+                if drawerViewController.drawerCurrentState == .up || animator.isReversed { fraction *= -1 }
+                animator.fractionComplete = fraction + animationProgress
+
+            case .ended:
+                let yVelocity = recognizer.velocity(in: drawerViewController.view).y
+                let shouldClose = yVelocity > 0
+                if yVelocity == 0 {
+                    animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+                    break
+                }
+                switch drawerViewController.drawerCurrentState {
+                    case .up:
+                        if !shouldClose && !animator.isReversed { animator.isReversed = !animator.isReversed }
+                        if shouldClose && animator.isReversed { animator.isReversed = !animator.isReversed }
+                    case .down:
+                        if shouldClose && !animator.isReversed { animator.isReversed = !animator.isReversed }
+                        if !shouldClose && animator.isReversed { animator.isReversed = !animator.isReversed }
+                }
+                animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+            @unknown default:
+                print("inside default")
+                break
+        }
+    }
 
     private func animateCard(with topOffset: CGFloat) {
         let state = drawerViewController.drawerCurrentState.opposite
