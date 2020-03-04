@@ -14,7 +14,6 @@
 		744DB6522407B0930056C47F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 744DB6512407B0930056C47F /* Assets.xcassets */; };
 		744DB6552407B0930056C47F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 744DB6532407B0930056C47F /* LaunchScreen.storyboard */; };
 		744DB6602407B8F00056C47F /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DB65F2407B8F00056C47F /* UIView+Layout.swift */; };
-		744DB662240828340056C47F /* UIAnimatorProperty+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DB661240828340056C47F /* UIAnimatorProperty+Convenience.swift */; };
 		744DB66424082C580056C47F /* DummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DB66324082C580056C47F /* DummyViewController.swift */; };
 		744DB6662408494E0056C47F /* DrawerHitAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DB6652408494E0056C47F /* DrawerHitAreaView.swift */; };
 		744DB668240859720056C47F /* TouchDismisserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DB667240859720056C47F /* TouchDismisserView.swift */; };
@@ -31,7 +30,6 @@
 		744DB6542407B0930056C47F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		744DB6562407B0930056C47F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		744DB65F2407B8F00056C47F /* UIView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+Layout.swift"; path = "Pinpad/UIView+Layout.swift"; sourceTree = SOURCE_ROOT; };
-		744DB661240828340056C47F /* UIAnimatorProperty+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAnimatorProperty+Convenience.swift"; sourceTree = "<group>"; };
 		744DB66324082C580056C47F /* DummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyViewController.swift; sourceTree = "<group>"; };
 		744DB6652408494E0056C47F /* DrawerHitAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerHitAreaView.swift; sourceTree = "<group>"; };
 		744DB667240859720056C47F /* TouchDismisserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchDismisserView.swift; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 				744DB66B240965B80056C47F /* DrawerViewController.swift */,
 				744DB64C2407B0910056C47F /* ViewController.swift */,
 				744DB65F2407B8F00056C47F /* UIView+Layout.swift */,
-				744DB661240828340056C47F /* UIAnimatorProperty+Convenience.swift */,
 				744DB6652408494E0056C47F /* DrawerHitAreaView.swift */,
 				744DB667240859720056C47F /* TouchDismisserView.swift */,
 			);
@@ -169,7 +166,6 @@
 				744DB64D2407B0910056C47F /* ViewController.swift in Sources */,
 				744DB6662408494E0056C47F /* DrawerHitAreaView.swift in Sources */,
 				744DB66C240965B80056C47F /* DrawerViewController.swift in Sources */,
-				744DB662240828340056C47F /* UIAnimatorProperty+Convenience.swift in Sources */,
 				744DB6492407B0910056C47F /* AppDelegate.swift in Sources */,
 				744DB64B2407B0910056C47F /* SceneDelegate.swift in Sources */,
 				744DB6602407B8F00056C47F /* UIView+Layout.swift in Sources */,
