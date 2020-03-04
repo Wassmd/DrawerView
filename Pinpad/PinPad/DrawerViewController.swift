@@ -15,8 +15,8 @@ class DrawerViewController: UIViewController {
 
         var opposite: DrawerState {
             switch self {
-            case .open: return .closed
-            case .closed: return .open
+                case .open: return .closed
+                case .closed: return .open
             }
         }
     }
@@ -41,8 +41,8 @@ class DrawerViewController: UIViewController {
 
     var drawerCurrentState: DrawerState = .closed
     private lazy var drawerOffset: CGFloat = {
-           return self.view.frame.height - bottomOffset
-       }()
+        return self.view.frame.height - bottomOffset
+    }()
 
     var drawViewFrame: CGRect {
         return drawerContentHolderView.frame
@@ -107,8 +107,6 @@ class DrawerViewController: UIViewController {
     }
 }
 
-
-// Drawer Animation
 extension DrawerViewController {
 
     // MARK: - Animation
@@ -142,7 +140,6 @@ extension DrawerViewController {
                 case .closed:
                     self.bottomConstraint?.constant = self.drawerOffset
             }
-
         }
 
         transitionAnimator.startAnimation()
@@ -200,7 +197,7 @@ extension DrawerViewController {
     }
 
     func closeDrawerIfNeededTap(on location: CGPoint) {
-         guard drawerCurrentState == .open else { return }
+        guard drawerCurrentState == .open else { return }
 
         let drawViewFrame = drawerContentHolderView.frame
 
