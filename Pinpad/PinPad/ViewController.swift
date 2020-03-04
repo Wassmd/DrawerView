@@ -60,7 +60,7 @@ class ViewController: UIViewController {
         guard location.y < drawView.origin.y else { return }
 
         //        animateCard(with: view.bounds.height - 150)
-        animateTransitionIfNeeded(to: drawerViewController.drawerCurrentState.opposite, duration: 0.5)
+        animateTransitionIfNeeded(to: drawerViewController.drawerCurrentState.opposite)
 
         drawerViewController.drawerCurrentState = .open
     }
@@ -70,7 +70,7 @@ class ViewController: UIViewController {
         setupDrawerConstraints()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            //            self?.animateCard(with: 66)
+            self?.animateTransitionIfNeeded(to: DrawerState.open)
         }
     }
 
@@ -122,7 +122,7 @@ class ViewController: UIViewController {
             case .began:
 
                 // start the animations
-                animateTransitionIfNeeded(to: drawerViewController.drawerCurrentState.opposite, duration: 0.5)
+                animateTransitionIfNeeded(to: drawerViewController.drawerCurrentState.opposite)
 
                 // pause all animations, since the next event may be a pan changed
                 runningAnimators.forEach { $0.pauseAnimation() }
@@ -179,7 +179,7 @@ class ViewController: UIViewController {
     private var runningAnimators = [UIViewPropertyAnimator]()
 
     /// Animates the transition, if the animation is not already running.
-    private func animateTransitionIfNeeded(to state: DrawerState, duration: TimeInterval) {
+    private func animateTransitionIfNeeded(to state: DrawerState, duration: TimeInterval = 0.5) {
         // an animator for the transition
         let transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
             switch state {
