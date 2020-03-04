@@ -3,16 +3,16 @@ import UIKit
 class ViewController: UIViewController {
 
     private let drawerViewController = DrawerViewController()
-    //    private var animationProgress: CGFloat = 0
 
     // MARK: - Constants
-    // TODO: Name is better
-    private lazy var popupOffset: CGFloat = {
+
+    private lazy var drawerOffset: CGFloat = {
         return self.view.frame.height - 200
     }()
 
     private var bottomConstraint: NSLayoutConstraint?
-    private var animationProgress = [CGFloat]()
+    private var animationProgress: CGFloat = 0
+    private var runningAnimator: UIViewPropertyAnimator!
 
     private let button: UIButton = {
         let button = UIButton(type: .system)
@@ -113,7 +113,7 @@ class ViewController: UIViewController {
     private func setupDrawerConstraints() {
         drawerViewController.drawerContentHolderView.pinLeadingAndTrailingEdges(to: view)
         drawerViewController.drawerContentHolderView.pinHeight(to: view.bounds.height - 110)
-        bottomConstraint =  drawerViewController.drawerContentHolderView.pinBottomEdge(to: view, withOffset: popupOffset)
+        bottomConstraint =  drawerViewController.drawerContentHolderView.pinBottomEdge(to: view, withOffset: drawerOffset)
 
     }
 
@@ -121,82 +121,61 @@ class ViewController: UIViewController {
         switch recognizer.state {
             case .began:
 
-                // start the animations
                 animateTransitionIfNeeded(to: drawerViewController.drawerCurrentState.opposite)
-
-                // pause all animations, since the next event may be a pan changed
-                runningAnimators.forEach { $0.pauseAnimation() }
-
-                // keep track of each animator's progress
-                animationProgress = runningAnimators.map { $0.fractionComplete }
+                runningAnimator.pauseAnimation()
+                animationProgress = runningAnimator.fractionComplete
 
             case .changed:
-
-                // variable setup
                 let translation = recognizer.translation(in: drawerViewController.drawerContentHolderView)
-                var fraction = -translation.y / popupOffset
+                var fraction = -translation.y / drawerOffset
 
-                // adjust the fraction for the current state and reversed state
                 if drawerViewController.drawerCurrentState == .open { fraction *= -1 }
-                if runningAnimators[0].isReversed { fraction *= -1 }
-
-                // apply the new fraction
-                for (index, animator) in runningAnimators.enumerated() {
-                    animator.fractionComplete = fraction + animationProgress[index]
-            }
+                if runningAnimator.isReversed { fraction *= -1 }
+                runningAnimator.fractionComplete = fraction + animationProgress
 
             case .ended:
 
-                // variable setup
                 let yVelocity = recognizer.velocity(in: drawerViewController.drawerContentHolderView).y
                 let shouldClose = yVelocity > 0
 
-                // if there is no motion, continue all animations and exit early
+                // Early exit if no motion
                 if yVelocity == 0 {
-                    runningAnimators.forEach { $0.continueAnimation(withTimingParameters: nil, durationFactor: 0) }
+                    runningAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
                     break
                 }
 
-                // reverse the animations based on their current state and pan motion
+                // Reserve animations
                 switch drawerViewController.drawerCurrentState {
                     case .open:
-                        if !shouldClose && !runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
-                        if shouldClose && runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
+                        if !shouldClose && !runningAnimator.isReversed { runningAnimator.isReversed = !runningAnimator.isReversed }
+                        if shouldClose && runningAnimator.isReversed { runningAnimator.isReversed = !runningAnimator.isReversed }
                     case .closed:
-                        if shouldClose && !runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
-                        if !shouldClose && runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
+                        if shouldClose && !runningAnimator.isReversed { runningAnimator.isReversed = !runningAnimator.isReversed }
+                        if !shouldClose && runningAnimator.isReversed { runningAnimator.isReversed = !runningAnimator.isReversed }
                 }
 
                 // continue all animations
-                runningAnimators.forEach { $0.continueAnimation(withTimingParameters: nil, durationFactor: 0) }
+                runningAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
 
             default:
                 ()
         }
     }
 
-    // TODO: Place it to its position
-    private var runningAnimators = [UIViewPropertyAnimator]()
-
-    /// Animates the transition, if the animation is not already running.
     private func animateTransitionIfNeeded(to state: DrawerState, duration: TimeInterval = 0.5) {
-        // an animator for the transition
         let transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
             switch state {
                 case .open:
                     self.bottomConstraint?.constant = 0
                     self.drawerViewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
                 case .closed:
-                    self.bottomConstraint?.constant = self.popupOffset
+                    self.bottomConstraint?.constant = self.drawerOffset
                     self.drawerViewController.view.backgroundColor = .clear
             }
             self.view.layoutIfNeeded()
         })
 
-        // the transition completion block
         transitionAnimator.addCompletion { position in
-
-            // update the state
             switch position {
                 case .start:
                     self.drawerViewController.drawerCurrentState = state.opposite
@@ -206,22 +185,17 @@ class ViewController: UIViewController {
                     ()
             }
 
-            // manually reset the constraint positions
             switch self.self.drawerViewController.drawerCurrentState {
                 case .open:
                     self.bottomConstraint?.constant = 0
                 case .closed:
-                    self.bottomConstraint?.constant = self.popupOffset
+                    self.bottomConstraint?.constant = self.drawerOffset
             }
 
         }
 
-
-        // start all animators
         transitionAnimator.startAnimation()
-
-        // keep track of all running animators
-        runningAnimators.append(transitionAnimator)
+        runningAnimator = transitionAnimator
     }
 }
 
