@@ -1,22 +1,22 @@
 import UIKit
 
-enum DrawerState {
-    case up
-    case down
 
+enum DrawerState {
+    case closed
+    case open
+
+    // simplify this
     var opposite: DrawerState {
         switch self {
-            case .down:
-                return .up
-            case .up:
-                return .down
+        case .open: return .closed
+        case .closed: return .open
         }
     }
 }
 
 class DrawerViewController: UIViewController {
 
-    var drawerCurrentState: DrawerState = .up
+    var drawerCurrentState: DrawerState = .open
 
     let drawerContentHolderView: DrawerHitAreaView = {
         let view = DrawerHitAreaView()
@@ -29,9 +29,6 @@ class DrawerViewController: UIViewController {
         
         view = TouchDismisserView(frame: view.frame)
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-//        view.backgroundColor = .black
-        //        view.backgroundColor = .clear
-
     }
     override func viewDidLoad() {
         super.viewDidLoad()
