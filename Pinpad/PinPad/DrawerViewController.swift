@@ -1,35 +1,51 @@
 import UIKit
 
+class DrawerViewController: UIViewController {
 
-enum DrawerState {
-    case closed
-    case open
+    enum DrawerState {
+        case closed
+        case open
 
-    var opposite: DrawerState {
-        switch self {
-        case .open: return .closed
-        case .closed: return .open
+        var opposite: DrawerState {
+            switch self {
+            case .open: return .closed
+            case .closed: return .open
+            }
         }
     }
-}
 
-class DrawerViewController: UIViewController {
+    private let topOffset: CGFloat
+    private let bottomOffset: CGFloat
 
     private var animationProgress: CGFloat = 0
     private var runningAnimator: UIViewPropertyAnimator!
     private var bottomConstraint: NSLayoutConstraint?
 
-    var drawerCurrentState: DrawerState = .open
+    var drawerCurrentState: DrawerState = .closed
 
-    let drawerContentHolderView: DrawerHitAreaView = {
+    private let drawerContentHolderView: DrawerHitAreaView = {
         let view = DrawerHitAreaView()
         view.backgroundColor = .white
         return view
     }()
 
     private lazy var drawerOffset: CGFloat = {
-           return self.view.frame.height - 200
+           return self.view.frame.height - bottomOffset
        }()
+
+    var drawViewFrame: CGRect {
+        return drawerContentHolderView.frame
+    }
+    init(topOffset: CGFloat = 110, bottomOffset: CGFloat = 200) {
+        self.topOffset = topOffset
+        self.bottomOffset = bottomOffset
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func loadView() {
         super.loadView()
@@ -59,19 +75,19 @@ class DrawerViewController: UIViewController {
 
     private func setupConstraints() {
         drawerContentHolderView.pinLeadingAndTrailingEdges(to: view)
-        drawerContentHolderView.pinHeight(to: view.bounds.height - 110)
+        drawerContentHolderView.pinHeight(to: view.bounds.height - topOffset)
         bottomConstraint =  drawerContentHolderView.pinBottomEdge(to: view, withOffset: drawerOffset)
-
     }
 
-    func removeFromFaceOfEarth() {
+    func remove() {
         willMove(toParent: nil)
         view.removeFromSuperview()
         removeFromParent()
     }
 }
 
-// Dedicated for Animation
+
+// Drawer Animation
 extension DrawerViewController {
     func animateTransitionIfNeeded(to state: DrawerState, duration: TimeInterval = 0.5) {
         let transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
@@ -93,7 +109,7 @@ extension DrawerViewController {
                 case .end:
                     self.drawerCurrentState = state
                 default:
-                    ()
+                    break
             }
 
             switch self.drawerCurrentState {
@@ -151,5 +167,9 @@ extension DrawerViewController {
             default:
                 break
         }
+    }
+
+    func updateDrawerCurrentState(state: DrawerState) {
+        drawerCurrentState = state
     }
 }

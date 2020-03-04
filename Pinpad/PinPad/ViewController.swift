@@ -47,19 +47,18 @@ class ViewController: UIViewController {
 
         // only accept touches in transparent View location
         let location = gestureRecognizer.location(in: view)
-        let drawView = drawerViewController.drawerContentHolderView.frame
+        let drawViewFrame = drawerViewController.drawViewFrame
 
-        guard location.y < drawView.origin.y else { return }
+        guard location.y < drawViewFrame.origin.y else { return }
 
         drawerViewController.animateTransitionIfNeeded(to: drawerViewController.drawerCurrentState.opposite)
-        drawerViewController.drawerCurrentState = .open
     }
 
     @objc func setupAndShowDrawer() {
         setupDrawerController()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            self?.drawerViewController.animateTransitionIfNeeded(to: DrawerState.open)
+            self?.drawerViewController.animateTransitionIfNeeded(to: DrawerViewController.DrawerState.open)
         }
     }
 
@@ -68,7 +67,7 @@ class ViewController: UIViewController {
     }
 
     func removeDrawer() {
-        drawerViewController.removeFromFaceOfEarth()
+        drawerViewController.remove()
     }
 
     private func setupConstraints() {
@@ -88,9 +87,7 @@ class ViewController: UIViewController {
     private func setupDrawerController() {
         addChild(drawerViewController)
         view.addSubview(drawerViewController.view)
-        
         drawerViewController.didMove(toParent: self)
-        drawerViewController.drawerCurrentState = .closed
     }
 }
 
