@@ -2,7 +2,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    private let drawerViewController = DrawerViewController()
+    private let drawerViewController = DrawerViewController(draggableViewController: DummyViewController())
 
     // MARK: - Constants
 
