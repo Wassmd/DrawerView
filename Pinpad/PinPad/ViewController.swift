@@ -7,7 +7,7 @@ class ViewController: UIViewController {
     // MARK: - Constants
 
     private lazy var drawerOffset: CGFloat = {
-        return self.view.frame.height - 200
+        return self.view.frame.height
     }()
 
     private var bottomConstraint: NSLayoutConstraint?
@@ -75,8 +75,6 @@ class ViewController: UIViewController {
     }
 
     @objc func presentView() {
-        print("inside present View")
-
         present(DummyViewController(), animated: true)
     }
 
@@ -120,7 +118,6 @@ class ViewController: UIViewController {
     @objc private func handlePan(recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
             case .began:
-
                 animateTransitionIfNeeded(to: drawerViewController.drawerCurrentState.opposite)
                 runningAnimator.pauseAnimation()
                 animationProgress = runningAnimator.fractionComplete
@@ -134,7 +131,6 @@ class ViewController: UIViewController {
                 runningAnimator.fractionComplete = fraction + animationProgress
 
             case .ended:
-
                 let yVelocity = recognizer.velocity(in: drawerViewController.drawerContentHolderView).y
                 let shouldClose = yVelocity > 0
 
@@ -154,11 +150,11 @@ class ViewController: UIViewController {
                         if !shouldClose && runningAnimator.isReversed { runningAnimator.isReversed = !runningAnimator.isReversed }
                 }
 
-                // continue all animations
+                // continue with animation
                 runningAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
 
             default:
-                ()
+                break
         }
     }
 
@@ -195,6 +191,7 @@ class ViewController: UIViewController {
         }
 
         transitionAnimator.startAnimation()
+
         runningAnimator = transitionAnimator
     }
 }
