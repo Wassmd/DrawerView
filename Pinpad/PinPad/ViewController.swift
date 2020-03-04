@@ -11,7 +11,7 @@ class ViewController: UIViewController {
         return self.view.frame.height - 200
     }()
 
-    private var bottomConstraint = NSLayoutConstraint()
+    private var bottomConstraint: NSLayoutConstraint?
     private var animationProgress = [CGFloat]()
 
     private let button: UIButton = {
@@ -184,10 +184,10 @@ class ViewController: UIViewController {
         let transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
             switch state {
                 case .open:
-                    self.bottomConstraint.constant = 0
+                    self.bottomConstraint?.constant = 0
                     self.drawerViewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
                 case .closed:
-                    self.bottomConstraint.constant = self.popupOffset
+                    self.bottomConstraint?.constant = self.popupOffset
                     self.drawerViewController.view.backgroundColor = .clear
             }
             self.view.layoutIfNeeded()
@@ -209,9 +209,9 @@ class ViewController: UIViewController {
             // manually reset the constraint positions
             switch self.self.drawerViewController.drawerCurrentState {
                 case .open:
-                    self.bottomConstraint.constant = 0
+                    self.bottomConstraint?.constant = 0
                 case .closed:
-                    self.bottomConstraint.constant = self.popupOffset
+                    self.bottomConstraint?.constant = self.popupOffset
             }
 
         }
