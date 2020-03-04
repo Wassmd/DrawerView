@@ -33,21 +33,22 @@ class DrawerViewController: UIViewController {
         return view
     }()
 
+    private let closeImageView: UIImageView = {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "icDrawHandleClose"))
+        imageView.backgroundColor = .clear
+
+        return imageView
+    }()
+
     // MARK: Mutable
 
     private var animationProgress: CGFloat = 0
     private var runningAnimator: UIViewPropertyAnimator!
     private var bottomConstraint: NSLayoutConstraint?
-
-    var drawerCurrentState: DrawerState = .closed
+    private var drawerCurrentState: DrawerState = .closed
     private lazy var drawerOffset: CGFloat = {
         return self.view.frame.height - bottomOffset
     }()
-
-    var drawViewFrame: CGRect {
-        return drawerContentHolderView.frame
-    }
-
 
     // MARK: - Initializers
 
@@ -63,6 +64,8 @@ class DrawerViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - View Lifecycle
+    
     override func loadView() {
         super.loadView()
         
@@ -70,13 +73,13 @@ class DrawerViewController: UIViewController {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
 
-    // MARK: - View Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSubView()
 
+        setupSubView()
         setupConstraints()
+
+        embed(child: DummyViewController())
     }
 
     // MARK: - Setups
@@ -87,7 +90,8 @@ class DrawerViewController: UIViewController {
     }
 
     private func setupSubView() {
-        view.addSubview(drawerContentHolderView)
+        [drawerContentHolderView, closeImageView].forEach(view.addSubview)
+
         setupRoundedCorners(for: drawerContentHolderView)
 
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:)))
@@ -98,6 +102,17 @@ class DrawerViewController: UIViewController {
         drawerContentHolderView.pinLeadingAndTrailingEdges(to: view)
         drawerContentHolderView.pinHeight(to: view.bounds.height - topOffset)
         bottomConstraint =  drawerContentHolderView.pinBottomEdge(to: view, withOffset: drawerOffset)
+
+        closeImageView.pinSize(to: CGSize(width: 34, height: 8))
+        closeImageView.pinTopEdge(to: drawerContentHolderView, withOffset: 6)
+        closeImageView.centerHorizontally(to: drawerContentHolderView)
+    }
+
+    func embed(child viewController: UIViewController) {
+        addChild(viewController)
+
+        drawerContentHolderView.addSubview(viewController.view)
+        viewController.didMove(toParent: self)
     }
 
     func remove() {
