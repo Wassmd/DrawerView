@@ -43,15 +43,10 @@ class ViewController: UIViewController {
     }
 
     @objc private func detectTap(gestureRecognizer: UITapGestureRecognizer) {
-        guard drawerViewController.drawerCurrentState == .open else { return }
-
         // only accept touches in transparent View location
         let location = gestureRecognizer.location(in: view)
-        let drawViewFrame = drawerViewController.drawViewFrame
 
-        guard location.y < drawViewFrame.origin.y else { return }
-
-        drawerViewController.animateTransitionIfNeeded(to: drawerViewController.drawerCurrentState.opposite)
+        drawerViewController.closeDrawerIfNeededTap(on: location)
     }
 
     @objc func setupAndShowDrawer() {

@@ -2,6 +2,13 @@ import UIKit
 
 class DrawerViewController: UIViewController {
 
+    // MARK: - Inner Types
+
+    private enum Constants {
+        static let topOffset: CGFloat = 110
+        static let bottomOffset: CGFloat = 200
+    }
+
     enum DrawerState {
         case closed
         case open
@@ -14,21 +21,25 @@ class DrawerViewController: UIViewController {
         }
     }
 
+
+    // MARK: - Properties
+    // MARK: Immutable
+
     private let topOffset: CGFloat
     private let bottomOffset: CGFloat
-
-    private var animationProgress: CGFloat = 0
-    private var runningAnimator: UIViewPropertyAnimator!
-    private var bottomConstraint: NSLayoutConstraint?
-
-    var drawerCurrentState: DrawerState = .closed
-
     private let drawerContentHolderView: DrawerHitAreaView = {
         let view = DrawerHitAreaView()
         view.backgroundColor = .white
         return view
     }()
 
+    // MARK: Mutable
+
+    private var animationProgress: CGFloat = 0
+    private var runningAnimator: UIViewPropertyAnimator!
+    private var bottomConstraint: NSLayoutConstraint?
+
+    var drawerCurrentState: DrawerState = .closed
     private lazy var drawerOffset: CGFloat = {
            return self.view.frame.height - bottomOffset
        }()
@@ -36,7 +47,12 @@ class DrawerViewController: UIViewController {
     var drawViewFrame: CGRect {
         return drawerContentHolderView.frame
     }
-    init(topOffset: CGFloat = 110, bottomOffset: CGFloat = 200) {
+
+
+    // MARK: - Initializers
+
+    init(topOffset: CGFloat = Constants.topOffset,
+         bottomOffset: CGFloat = Constants.bottomOffset) {
         self.topOffset = topOffset
         self.bottomOffset = bottomOffset
 
@@ -53,12 +69,17 @@ class DrawerViewController: UIViewController {
         view = TouchDismisserView(frame: view.frame)
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
+
+    // MARK: - View Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubView()
 
         setupConstraints()
     }
+
+    // MARK: - Setups
 
     private func setupRoundedCorners(for view: UIView) {
         view.layer.cornerRadius = 10
@@ -89,6 +110,9 @@ class DrawerViewController: UIViewController {
 
 // Drawer Animation
 extension DrawerViewController {
+
+    // MARK: - Animation
+
     func animateTransitionIfNeeded(to state: DrawerState, duration: TimeInterval = 0.5) {
         let transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: {
             switch state {
@@ -169,7 +193,20 @@ extension DrawerViewController {
         }
     }
 
+    // MARK: Helper
+
     func updateDrawerCurrentState(state: DrawerState) {
         drawerCurrentState = state
+    }
+
+    func closeDrawerIfNeededTap(on location: CGPoint) {
+         guard drawerCurrentState == .open else { return }
+
+        let drawViewFrame = drawerContentHolderView.frame
+
+        guard location.y < drawViewFrame.origin.y else { return }
+
+        animateTransitionIfNeeded(to: drawerCurrentState.opposite)
+
     }
 }
