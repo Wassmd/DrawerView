@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		744DB6492407B0910056C47F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DB6482407B0910056C47F /* AppDelegate.swift */; };
-		744DB64B2407B0910056C47F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DB64A2407B0910056C47F /* SceneDelegate.swift */; };
 		744DB64D2407B0910056C47F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DB64C2407B0910056C47F /* ViewController.swift */; };
-		744DB6502407B0910056C47F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 744DB64E2407B0910056C47F /* Main.storyboard */; };
 		744DB6522407B0930056C47F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 744DB6512407B0930056C47F /* Assets.xcassets */; };
 		744DB6552407B0930056C47F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 744DB6532407B0930056C47F /* LaunchScreen.storyboard */; };
 		744DB6602407B8F00056C47F /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DB65F2407B8F00056C47F /* UIView+Layout.swift */; };
@@ -23,9 +21,7 @@
 /* Begin PBXFileReference section */
 		744DB6452407B0910056C47F /* Pinpad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pinpad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		744DB6482407B0910056C47F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		744DB64A2407B0910056C47F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		744DB64C2407B0910056C47F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		744DB64F2407B0910056C47F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		744DB6512407B0930056C47F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		744DB6542407B0930056C47F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		744DB6562407B0930056C47F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -68,8 +64,6 @@
 			children = (
 				744DB65E2407B7250056C47F /* PinPad */,
 				744DB6482407B0910056C47F /* AppDelegate.swift */,
-				744DB64A2407B0910056C47F /* SceneDelegate.swift */,
-				744DB64E2407B0910056C47F /* Main.storyboard */,
 				744DB6512407B0930056C47F /* Assets.xcassets */,
 				744DB6532407B0930056C47F /* LaunchScreen.storyboard */,
 				744DB6562407B0930056C47F /* Info.plist */,
@@ -150,7 +144,6 @@
 			files = (
 				744DB6552407B0930056C47F /* LaunchScreen.storyboard in Resources */,
 				744DB6522407B0930056C47F /* Assets.xcassets in Resources */,
-				744DB6502407B0910056C47F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +160,6 @@
 				744DB6662408494E0056C47F /* DrawerHitAreaView.swift in Sources */,
 				744DB66C240965B80056C47F /* DrawerViewController.swift in Sources */,
 				744DB6492407B0910056C47F /* AppDelegate.swift in Sources */,
-				744DB64B2407B0910056C47F /* SceneDelegate.swift in Sources */,
 				744DB6602407B8F00056C47F /* UIView+Layout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,14 +167,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		744DB64E2407B0910056C47F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				744DB64F2407B0910056C47F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		744DB6532407B0930056C47F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -315,6 +299,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R895WUS4VT;
 				INFOPLIST_FILE = Pinpad/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -322,7 +307,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = payback.net.Pinpad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -333,6 +318,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R895WUS4VT;
 				INFOPLIST_FILE = Pinpad/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -340,7 +326,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = payback.net.Pinpad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
