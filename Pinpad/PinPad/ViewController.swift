@@ -42,6 +42,20 @@ class ViewController: UIViewController {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(detectTap)))
     }
 
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            button.widthAnchor.constraint(equalToConstant: 150),
+            button.heightAnchor.constraint(equalToConstant: 30),
+
+            button1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            button1.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 40),
+            button1.widthAnchor.constraint(equalToConstant: 150),
+            button1.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
     @objc private func detectTap(gestureRecognizer: UITapGestureRecognizer) {
         // only accept touches in transparent View location
         let location = gestureRecognizer.location(in: view)
@@ -63,20 +77,6 @@ class ViewController: UIViewController {
 
     func removeDrawer() {
         drawerViewController.remove()
-    }
-
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.widthAnchor.constraint(equalToConstant: 150),
-            button.heightAnchor.constraint(equalToConstant: 30),
-
-            button1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button1.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 40),
-            button1.widthAnchor.constraint(equalToConstant: 150),
-            button1.heightAnchor.constraint(equalToConstant: 30)
-        ])
     }
 
     private func setupDrawerController() {

@@ -34,7 +34,7 @@ class DrawerViewController: UIViewController {
     private let closeImageView: UIImageView = {
         let imageView = UIImageView(image: #imageLiteral(resourceName: "icDrawHandleClose"))
         imageView.backgroundColor = .clear
-
+        
         return imageView
     }()
 
@@ -121,6 +121,8 @@ class DrawerViewController: UIViewController {
 
         childContainerView.addSubview(viewController.view)
         viewController.didMove(toParent: self)
+
+        viewController.view.pinEdges(to: childContainerView)
     }
 
     func remove() {
